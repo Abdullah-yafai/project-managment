@@ -10,7 +10,7 @@ const UserSchema = new mongoose.Schema({
     },
     password: { type: String, required: true, select: false },
     org: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization', required: true, index: false },
-    department: { type: mongoose.Schema.Types.ObjectId, ref: 'Department', required: true, index: false },
+    department: { type: mongoose.Schema.Types.ObjectId, ref: 'Department', required: false, index: false },
     role: { type: String, enum: ["owner", "admin", "manager", "employee"], default: "employee", },
     avatar: { type: String, default: null },
 

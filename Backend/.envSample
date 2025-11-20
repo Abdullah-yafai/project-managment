@@ -1,0 +1,18 @@
+PORT=3000
+MONGODBURL=mongodb+srv://abdullahyafai077:abdullah123@mern.7ttdz1g.mongodb.net/aiContentPlannerDB
+
+ORIGIN= https://ai-task-manager-beta.vercel.app
+
+ACCESS_TOKEN_SECRET=snckscjwijciwncnwnwcnkwnknwkcnwk
+REFRESH_TOKEN_SECRET=snckscjwijciwncnwnwcnkwnknwkcnwk
+
+
+CLOUDINARY_NAME=dbcdgjjfd
+CLOUDINARY_API_KEY=628278199368826
+CLOUDINARY_API_SECRET=CNZ-uVFtWt1flGihWvUDMqqjO2w
+
+
+
+
+
+

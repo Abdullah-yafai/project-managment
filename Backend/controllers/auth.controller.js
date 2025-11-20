@@ -30,11 +30,28 @@ const Register = asyncHandler(async (req, res) => {
     const existingUser = await User.findOne({ email });
     if (existingUser) throw new ApiError(409, 'Email Already exist')
 
-    //get local path of images
-    const avatarPath = req.files?.avatar[0]?.path;
+    let avatar = null;
+    try {
+        const avatarPath = req.files?.avatar?.[0]?.path; // same as your snippet
 
-    //upload local path on cloudinary
-    const avatar = await UploadCloudinary(avatarPath);
+        if (avatarPath) {
+            console.log(avatarPath,'avatarPath')
+            // call your helper - must return something like { url: "...", public_id: "..." }
+            const uploadResult = await UploadCloudinary(avatarPath);
+            // ensure upload succeeded
+            if (!uploadResult || !uploadResult.url) {
+                // stop registration if upload failed
+                throw new ApiError(500, "Avatar upload failed");
+            }
+            avatar = uploadResult; // keep whole object if you want public_id too
+        }
+    } catch (err) {
+        // bubble upload error as ApiError so registration does not continue
+        if (err instanceof ApiError) throw err;
+        console.log(err,'avatar error')
+        throw new ApiError(500, "Avatar upload failed");
+    }
+
 
     // validate organization exists
     const orgExists = await Organization.findById(org);

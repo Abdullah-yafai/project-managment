@@ -6,6 +6,7 @@ import { ApiError } from "../utils/apierror.js";
 import { ApiResponse } from "../utils/apiResponse.js";
 import { Organization } from "../models/organization.model.js";
 import { Department } from "../models/department.model.js";
+import { UploadCloudinary } from "../utils/cloudinary.js";
 
 
 const Generatetokens = async (UserID) => {
@@ -32,25 +33,17 @@ const Register = asyncHandler(async (req, res) => {
     //get local path of images
     const avatarPath = req.files?.avatar[0]?.path;
 
-    if (!avatarPath) {
-        throw new ApiError(400, "Avatar file is required")
-    }
-
     //upload local path on cloudinary
     const avatar = await UploadCloudinary(avatarPath);
 
-    if (!avatar) {
-        throw new ApiError(400, "avatar is required")
-    }
-
-      // validate organization exists
+    // validate organization exists
     const orgExists = await Organization.findById(org);
-    if (!orgExists) throw new ApiError(401, "Organization not found" );
+    if (!orgExists) throw new ApiError(401, "Organization not found");
 
     // validate department + ensure it belongs to same org
     const deptExists = await Department.findOne({ _id: department, org: org });
     if (!deptExists)
-      throw new ApiError(401, "Invalid department for this organization" );
+        throw new ApiError(401, "Invalid department for this organization");
 
     const newUser = new User({
         name, email, password, role: role || "employee",
@@ -58,7 +51,7 @@ const Register = asyncHandler(async (req, res) => {
         department,
         isActive: true,
         lastLogin: null,
-        avatar: avatar.url
+        avatar: avatar?.url || ""
     })
     await newUser.save();
 
@@ -97,4 +90,13 @@ const Login = asyncHandler(async (req, res) => {
 
 })
 
-export { Register, Login }
+const GetMe = asyncHandler(async (req, res) => {
+    const user = req.user;
+    console.log(user, 'kkkk')
+    if (!user) throw new ApiError(401, 'Unauthoraize')
+
+    const getuser = await User.findById(user?._id).select('-password')
+    return res.status(200).json(new ApiResponse(getuser, 200, 'Profile fetch'))
+})
+
+export { Register, Login, GetMe }

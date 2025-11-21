@@ -24,7 +24,7 @@ const ensureConfig = () => {
   if (!apiKey || !apiSecret || !cloudName) {
     // throw a descriptive error so you see exactly what's missing
     const missing = [
-      !cloudName ? "CLOUDINARY_NAME/CLOUDINARY_CLOUD_NAME" : null,
+      !cloudName ? "CLOUDINARY_NAME" : null,
       !apiKey ? "CLOUDINARY_API_KEY" : null,
       !apiSecret ? "CLOUDINARY_API_SECRET" : null
     ].filter(Boolean).join(", ");

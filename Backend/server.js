@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 import cors from "cors";
 import authRoutes from "./routes/auth.js";
 import aiRoutes from "./routes/ai.js";
+import orgRoutes from "./routes/Org.routes.js";
+import departRoutes from "./routes/Depart.routes.js";
 
 dotenv.config()
 
@@ -33,6 +35,8 @@ app.use(express.static("public"));
 // routes
 app.use("/api/auth", authRoutes)
 app.use("/api/ai", aiRoutes)
+app.use("/api/org", orgRoutes)
+app.use("/api/depart", departRoutes)
 
 // DB Connection
 

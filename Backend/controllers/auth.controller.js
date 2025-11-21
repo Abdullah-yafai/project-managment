@@ -95,7 +95,7 @@ const GetMe = asyncHandler(async (req, res) => {
     console.log(user, 'kkkk')
     if (!user) throw new ApiError(401, 'Unauthoraize')
 
-    const getuser = await User.findById(user?._id).select('-password')
+    const getuser = await User.findById(user?._id)
     return res.status(200).json(new ApiResponse(getuser, 200, 'Profile fetch'))
 })
 

@@ -8,9 +8,9 @@ const UserSchema = new mongoose.Schema({
         type: String, required: true, unique: true, index: true, trim: true, lowercase: true,
         match: [/^\S+@\S+\.\S+$/, "Please provide a valid email address"],
     },
-    password: { type: String, required: true, select: false },
+    password: { type: String, required: true, select: true },
     org: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization', required: true, index: false },
-    department: { type: mongoose.Schema.Types.ObjectId, ref: 'Department', required: true, index: false },
+    department: { type: mongoose.Schema.Types.ObjectId, ref: 'Department', required: false},
     role: { type: String, enum: ["owner", "admin", "manager", "employee"], default: "employee", },
     avatar: { type: String, default: null },
 
